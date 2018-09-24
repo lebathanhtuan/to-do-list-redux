@@ -8,6 +8,9 @@ var initialState = [
         name: 'Pha cà phê cho anh Chiến'
     },
     {
+        name: 'Mua bánh cho anh Huy'
+    },
+    {
         name: 'Làm bài tập React'
     }
 ];
