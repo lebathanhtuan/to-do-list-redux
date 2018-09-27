@@ -11,11 +11,13 @@ class ListItem extends Component {
         this.getNameItem = this.getNameItem.bind(this);
         this.onClickDeleteItem = this.onClickDeleteItem.bind(this);
         this.onClickEditItem = this.onClickEditItem.bind(this);
+        this.onClickChangeStatus = this.onClickChangeStatus.bind(this);
         this.state = {
             displayDefault: 'inline-block',
             displayEdit: 'none',
-            nameItem: {
-                name: this.props.listItem
+            item: {
+                name: this.props.listItem,
+                status: this.props.listStatus
             }
         }
     }
@@ -58,14 +60,26 @@ class ListItem extends Component {
     }
 
     onClickEditItem(){
-        this.props.editItem(this.props.indexItem, this.state.nameItem)
+        this.props.editItem(this.props.indexItem, this.state.item)
         this.onClickButtonSave()
+    }
+
+    onClickChangeStatus(){
+        this.setState({
+            item: {
+                name: this.props.listItem,
+                status: !this.props.listStatus
+            }
+        })
+        setTimeout(()=>{
+            this.props.editItem(this.props.indexItem, this.state.item)
+        })
     }
 
     getNameItem(e){
         var value = e.target.value;
         this.setState({
-            nameItem: {
+            item: {
                 name: value
             }
         })
@@ -76,12 +90,18 @@ class ListItem extends Component {
             <tr>
                 <td>{this.props.indexItem+1}</td>
                 <td>
+                    <div className="custom-control custom-checkbox">
+                        <input type="checkbox" className="custom-control-input" id={this.props.indexItem} name="status" defaultChecked={this.state.item.status} onClick={this.onClickChangeStatus}/>
+                        <label className="custom-control-label" htmlFor={this.props.indexItem}></label>
+                    </div>
+                </td>
+                <td>
                     <h6 style={this.displayDefault()}>{this.props.listItem}</h6>
                     <input 
                         type="text" 
                         className="form-control"
                         name="nameItemEdit"
-                        value={this.state.nameItem.name}
+                        value={this.state.item.name}
                         style={this.displayEdit()}
                         onChange={this.getNameItem}
                     />
@@ -120,12 +140,6 @@ class ListItem extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return{
-        
-    }
-};
-
 const mapDispatchToProps = (dispatch, props) => {
     return{
         deleteItem: (id) => {
@@ -137,4 +151,4 @@ const mapDispatchToProps = (dispatch, props) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListItem);
+export default connect(null, mapDispatchToProps)(ListItem);

@@ -24,3 +24,9 @@ export const editItem = (id, value) => {
         value
     }
 }
+export const filterItem = (value) => {
+    return{
+        type: types.FILTER_ITEM,
+        value
+    }
+};

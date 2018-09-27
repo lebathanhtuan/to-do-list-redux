@@ -2,16 +2,20 @@ import * as types from "../constants/ActionTypes";
 
 var initialState = [
     {
-        name: 'Nộp bài cho anh Chiến đẹp trai'
+        name: 'Nộp bài cho anh Chiến đẹp trai',
+        status: true
     },
     {
-        name: 'Pha cà phê cho anh Chiến'
+        name: 'Pha cà phê cho anh Chiến',
+        status: false
     },
     {
-        name: 'Mua bánh cho anh Huy'
+        name: 'Mua bánh cho anh Huy',
+        status: false
     },
     {
-        name: 'Làm bài tập React'
+        name: 'Làm bài tập React',
+        status: true
     }
 ];
 

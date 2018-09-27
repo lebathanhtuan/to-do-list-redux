@@ -5,13 +5,39 @@ import { connect } from "react-redux";
 import * as actions from "./../actions/index"
 
 class ListToDo extends Component {
+    constructor(){
+        super();
+        this.onChangeFilter = this.onChangeFilter.bind(this);
+        this.state = {
+            filter: ''
+        }
+    }
+
+    onChangeFilter(e){
+        var value = e.target.value;
+        this.setState({
+            filter: value
+        });
+        setTimeout(()=>{
+            this.props.filterItem(this.state.filter);
+        });
+        
+    }
     render() {
-        var showList = this.props.listToDo.map((list, index) => {
+        var {listToDo, filter} = this.props;
+        if(filter){
+            listToDo = listToDo.filter(list => {
+                return list.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+            });
+        }
+        console.log(listToDo);
+        var showList = listToDo.map((list, index) => {
             return (
                 <ListItem 
                     key={index} 
                     indexItem={index} 
                     listItem={list.name} 
+                    listStatus={list.status}
                 />
             )
         });
@@ -19,7 +45,18 @@ class ListToDo extends Component {
             <table className="table table-hover">
                 <thead>
                     <tr>
+                        <th colSpan="4">
+                            <input 
+                                type="text" 
+                                className="form-control"
+                                onChange={this.onChangeFilter}
+                                placeholder="Filter"
+                            />
+                        </th>
+                    </tr>
+                    <tr>
                         <th>STT</th>
+                        <th>Status</th>
                         <th>To-do</th>
                         <th className="text-right action">Action</th>
                     </tr>
@@ -34,8 +71,17 @@ class ListToDo extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        listToDo: state.listToDo
+        listToDo: state.listToDo,
+        filter: state.filter
     }
 };
 
-export default connect(mapStateToProps, null)(ListToDo);
+const mapDispatchToProps = (dispatch, props) => {
+    return{
+        filterItem: (value) => {
+            dispatch(actions.filterItem(value));
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListToDo);
