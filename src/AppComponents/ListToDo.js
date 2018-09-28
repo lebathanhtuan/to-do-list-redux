@@ -30,7 +30,6 @@ class ListToDo extends Component {
                 return list.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1
             });
         }
-        console.log(listToDo);
         var showList = listToDo.map((list, index) => {
             return (
                 <ListItem 
